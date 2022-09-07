@@ -1,4 +1,4 @@
-// 21900262 ¹Ú°æ·û
+// 21900262 ë°•ê²½ë¥œ
 // Computer Vision (02)
 
 // Assignment 2
@@ -9,8 +9,8 @@
 //	- with gamma as 10
 // 
 // Display the input and the result on two windows
-//  -¡®gray image¡¯ for input
-//  - ¡®result¡¯ for result
+//  -â€˜gray imageâ€™ for input
+//  - â€˜resultâ€™ for result
 
 #include "cv.hpp"
 #include <iostream>
@@ -37,9 +37,9 @@ int main() {
         pix[i] = saturate_cast<uchar>(pow((float)(i / 255.0), gamma) * 255.0f);
     }
 
-    // Èæ¹é»çÁø ¹Ş¾Æ¿À±â
+    // í‘ë°±ì‚¬ì§„ ë°›ì•„ì˜¤ê¸°
 
-    // 90µµ È¸Àü½ÃÅ°±â
+    // 90ë„ íšŒì „ì‹œí‚¤ê¸°
 
     // check if file exists. If none program ends
     //if (image.open("lena.png") == 0) {
@@ -58,13 +58,13 @@ int main() {
             // Rotate 90 degree right
             //rotated_img.at<uchar>(i, h-j-1) = image.at<uchar>(j, i);
 
-            value = rotated_img.at<uchar>(j, i);
+            value = rotated_img.at<uchar>(i, j);
 
-            if (value < 127) rotated_img.at<uchar>(j, i) = 255 - value;
-            else rotated_img.at<uchar>(j, i) = pix[rotated_img.at<uchar>(j, i)];
-            // ¸¸¾à ÇÈ¼¿ÀÌ 127º¸´Ù ÀÛÀ¸¸é negative
-            // ¸¸¾à ÇÈ¼¿ÀÌ ±× ¿Ü¸é gamma
-            // gamma´Â 10À¸·Î °íÁ¤
+            if (value < 127) rotated_img.at<uchar>(i, j) = 255 - value;
+            else rotated_img.at<uchar>(i, j) = pix[rotated_img.at<uchar>(j, i)];
+            // ë§Œì•½ í”½ì…€ì´ 127ë³´ë‹¤ ì‘ìœ¼ë©´ negative
+            // ë§Œì•½ í”½ì…€ì´ ê·¸ ì™¸ë©´ gamma
+            // gammaëŠ” 10ìœ¼ë¡œ ê³ ì •
         }
     }
 
