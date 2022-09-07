@@ -37,16 +37,6 @@ int main() {
         pix[i] = saturate_cast<uchar>(pow((float)(i / 255.0), gamma) * 255.0f);
     }
 
-    // 흑백사진 받아오기
-
-    // 90도 회전시키기
-
-    // check if file exists. If none program ends
-    //if (image.open("lena.png") == 0) {
-    //    cout << "no such file!" << endl;
-    //    waitKey(0);
-    //}
-
     for (int j = 0; j < h; j++){
         for (int i = 0; i < w; i++) {
             // Rotate 90 degree left
