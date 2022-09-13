@@ -35,27 +35,38 @@ int main() {
     int h = moon.rows;
     int w = moon.cols;
 
+    int hs = saltnpepper.rows;
+    int ws = saltnpepper.cols;
+
     // create ROI
     Rect rect(0, 0, w / 2, h);
-    Mat roi(moon_filtered(rect));
+    Rect rect2(0, 0, ws / 2, hs);
+    Mat roi_m(moon_filtered(rect));
+    Mat roi_s(saltnpepper_filtered(rect2));
 
-
-    // perform unsharp masking
-    // 1. create the blurred copy
-    // 2. create gaussian filtered image
+    // 1.PERFORM UNSHARP MASKING
+    // 1) create the blurred copy
+    // 2) create gaussian filtered image
     Mat blurred;
-    GaussianBlur(roi, roi, Size(3, 3), 0, 0, BORDER_DEFAULT);
+    GaussianBlur(roi_m, roi_m, Size(3, 3), 0, 0, BORDER_DEFAULT);
 
-    // 3. subtract gaussian filtered image from original
+    // 3) subtract gaussian filtered image from original
     Mat sub;
     subtract(moon, moon_filtered, sub);
 
-    // 4. add subtracted image to original
+    // 4) add subtracted image to original
     add(moon, sub, moon_filtered);
+
+
+    // 2.PERFORM MEDIAN FILTER
+    medianBlur(roi_s, roi_s, 9);
 
     // display results
     imshow("moon", moon);
     imshow("moon_filtered", moon_filtered);
+
+    imshow("saltnpepper", saltnpepper);
+    imshow("saltnpepper_filtered", saltnpepper_filtered);
 
     waitKey(0);
     return 0;
