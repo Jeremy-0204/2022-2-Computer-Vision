@@ -42,3 +42,4 @@
 > - in: src, out: dst, val: aperture size(must be odd and greater than 1)
 
 ### Result
+![Assignment3](https://github.com/Jeremy-0204/2022-2-Computer-Vision/blob/main/Results_Screenshots/Assignment3_result.png)
