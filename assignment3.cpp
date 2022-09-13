@@ -22,7 +22,16 @@ using namespace std;
 int main() {
     Mat img1;
     Mat img2;
-    img1 = imread("lena.png", 0);
+    // 흑백사진 받아오기
+    // ROI 사진 절반 입력하기
+    // Unsharp Masking 적용하기
+
+    // 흑백사진 받아오기
+    // ROI 사진 절반 입력하기
+    // Median Filtering 하기
+    img1 = imread("moon.png", 0);
+    img2 = imread("saltnpepper.png", 0);
+
 
     int h = img1.rows;
     int w = img1.cols;
@@ -52,7 +61,7 @@ int main() {
     for (int j = 0; j < h; j++) {
         for (int i = 0; i < w; i++) {
             // Rotate 90 degree left
-            rotated_img.at<uchar>(i, j) = image.at<uchar>(j, i);
+            rotated_img.at<uchar>(i, j) = img1.at<uchar>(j, i);
 
             // Rotate Upside Down
             //rotated_img.at<uchar>(h-j-1, i) = image.at<uchar>(j, i);
