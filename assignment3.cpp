@@ -20,68 +20,42 @@ using namespace cv;
 using namespace std;
 
 int main() {
-    Mat img1;
-    Mat img2;
-    // 흑백사진 받아오기
-    // ROI 사진 절반 입력하기
-    // Unsharp Masking 적용하기
+    Mat moon, moon_filtered;
+    Mat saltnpepper, saltnpepper_filtered;
 
-    // 흑백사진 받아오기
-    // ROI 사진 절반 입력하기
-    // Median Filtering 하기
-    img1 = imread("moon.png", 0);
-    img2 = imread("saltnpepper.png", 0);
+    // read grey scale image
+    moon = imread("moon.png", 0);
+    saltnpepper = imread("saltnpepper.png", 0);
+
+    // copy original images
+    moon_filtered = moon.clone();
+    saltnpepper_filtered = saltnpepper.clone();
+
+    // calculate width, height
+    int h = moon.rows;
+    int w = moon.cols;
+
+    // create ROI
+    Rect rect(0, 0, w / 2, h);
+    Mat roi(moon_filtered(rect));
 
 
-    int h = img1.rows;
-    int w = img1.cols;
+    // perform unsharp masking
+    // 1. create the blurred copy
+    // 2. create gaussian filtered image
+    Mat blurred;
+    GaussianBlur(roi, roi, Size(3, 3), 0, 0, BORDER_DEFAULT);
 
-    Mat rotated_img = img1.clone();
-    Mat gamma_img;
-    Mat negative_img;
+    // 3. subtract gaussian filtered image from original
+    Mat sub;
+    subtract(moon, moon_filtered, sub);
 
-    int value;
-    float gamma = 10.0;
-    unsigned char pix[256];
+    // 4. add subtracted image to original
+    add(moon, sub, moon_filtered);
 
-    for (int i = 0; i < 256; i++) {
-        pix[i] = saturate_cast<uchar>(pow((float)(i / 255.0), gamma) * 255.0f);
-    }
-
-    // 흑백사진 받아오기
-
-    // 90도 회전시키기
-
-    // check if file exists. If none program ends
-    //if (image.open("lena.png") == 0) {
-    //    cout << "no such file!" << endl;
-    //    waitKey(0);
-    //}
-
-    for (int j = 0; j < h; j++) {
-        for (int i = 0; i < w; i++) {
-            // Rotate 90 degree left
-            rotated_img.at<uchar>(i, j) = img1.at<uchar>(j, i);
-
-            // Rotate Upside Down
-            //rotated_img.at<uchar>(h-j-1, i) = image.at<uchar>(j, i);
-
-            // Rotate 90 degree right
-            //rotated_img.at<uchar>(i, h-j-1) = image.at<uchar>(j, i);
-
-            value = rotated_img.at<uchar>(i, j);
-
-            if (value < 127) rotated_img.at<uchar>(i, j) = 255 - value;
-            else rotated_img.at<uchar>(i, j) = pix[rotated_img.at<uchar>(j, i)];
-            // 만약 픽셀이 127보다 작으면 negative
-            // 만약 픽셀이 그 외면 gamma
-            // gamma는 10으로 고정
-        }
-    }
-
-    // Print results and input image
-    imshow("gray image", img1);
-    imshow("result", rotated_img);
+    // display results
+    imshow("moon", moon);
+    imshow("moon_filtered", moon_filtered);
 
     waitKey(0);
     return 0;
